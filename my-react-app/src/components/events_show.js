@@ -40,12 +40,12 @@ class EventsShow extends Component {
   }
 
   async onSubmit(values) {
-    // await this.props.postEvent(values)
+    await this.props.putEvent(values)
     this.props.history.push("/")
   }
 
   render() {
-    const { handleSubmit, pristine, submitting } = this.props
+    const { handleSubmit, pristine, submitting, invalid } = this.props
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
         <div>
@@ -66,7 +66,7 @@ class EventsShow extends Component {
         </div>
 
         <div>
-          <input type="submit" value="Submit" disabled={pristine || submitting} />
+          <input type="submit" value="Submit" disabled={pristine || submitting || invalid} />
           <Link to="/">Cancel</Link>
           <Link to="/" onClick={this.onDeleteClick}>Delete</Link>
         </div>
@@ -89,7 +89,7 @@ const mapStateToProps = (state, ownProps) => {
   const event = state.events[ownProps.match.params.id]
   return { initialValues: event, event } 
 }
-const mapDispatchToProps = { deleteEvent, getEvent }
+const mapDispatchToProps = { deleteEvent, getEvent, putEvent }
 
 export default connect(
   mapStateToProps,
